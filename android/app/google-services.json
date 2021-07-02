@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "902603994957",
+    "project_id": "hello-flutter-getx",
+    "storage_bucket": "hello-flutter-getx.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902603994957:android:4a4e0fbf6e8ac7982da904",
+        "android_client_info": {
+          "package_name": "com.example.covid_getx_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902603994957-flub9hnvi2g099v11qi971tbnpqbsafk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGQr3xINZ9STwKi1V7LdEgb4nl7R_i9OU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902603994957-flub9hnvi2g099v11qi971tbnpqbsafk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
