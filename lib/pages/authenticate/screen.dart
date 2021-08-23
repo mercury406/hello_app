@@ -1,3 +1,4 @@
+import 'package:covid_getx_app/routes/app_pages.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../exports.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterScreen extends GetView<AuthController> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class RegisterScreen extends GetView<AuthController> {
                   children: [
                     Text("Registration", style: GoogleFonts.roboto(textStyle: Constants.DEFAULTEXTSTYLE.copyWith(fontSize: 24.0)),),
                     RegistrationForm(),
+                    Obx( () {if(controller.registrationSuccess.value) Get.offAllNamed(AppRoutes.HOME); return Visibility(visible: false, child: Container(),);})
                   ]
                 ),
               )

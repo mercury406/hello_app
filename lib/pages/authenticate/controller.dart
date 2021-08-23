@@ -17,6 +17,7 @@ class AuthController extends GetxController {
   RxBool isCodeButtonEnabled = true.obs;
   RxString phoneNumber = "".obs;
   RxString confirmationCode = "".obs;
+  RxBool registrationSuccess = false.obs;
 
   void setDefaults() {
     this.isPhoneInputEnabled.value = true;
@@ -120,7 +121,8 @@ class AuthController extends GetxController {
         LocalPreferences.getRegisterUid().then((status) => print("LocalPrefs regStatus: $status") );
         await http.post(Uri.parse("${Constants.MAINURL}/register/$id"), body: {"uid": user.uid});
         Get.snackbar("success", "Registered");
-        Get.offNamed(AppRoutes.HOME);
+        this.registrationSuccess.value = true;
+        Get.offAllNamed(AppRoutes.HOME);
       } else {
         errorSnack("Can't register. Try another time");
         this.isCodeButtonEnabled.value = true;

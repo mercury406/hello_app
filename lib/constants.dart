@@ -17,4 +17,6 @@ abstract class Constants{
 abstract class StorageKeys {
   static const UID = "uid";
   static const FCM = "fcm";
+  static const CONTACTS_SENT = "contacts_sent";
+  static const NOTIFICATION_COUNT = "notification_count";
 }

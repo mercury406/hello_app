@@ -11,31 +11,65 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Constants.MAINBACKGROUNDCOLOR,
-        child: Icon(Icons.refresh, color: Colors.white,),
-        onPressed: () {
-          homeController.printPermissionStatus();
-          homeController.contacts.clear();
-        },),
+      floatingActionButton: Obx(
+        () => !homeController.floatingRefreshBtnEnabled.value ? Container() :
+          FloatingActionButton(
+          backgroundColor: Constants.MAINBACKGROUNDCOLOR,
+          child: Icon(
+            Icons.refresh,
+            color: Colors.white,
+          ),
+          onPressed: () async {
+            homeController.floatingRefreshBtnEnabled.value = false;
+            homeController.contacts.clear();
+            await homeController.getNearby();
+            homeController.floatingRefreshBtnEnabled.value = true;
+          },
+        ),
+      ),
       backgroundColor: Constants.MAINBACKGROUNDCOLOR,
       body: SafeArea(
         child: Column(
           children: [
             TopPanel(),
             Padding(
-              padding: EdgeInsets.only(top: 4.0, left: 12.0, right: 4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("Your Contatcts".toUpperCase(),
-                    style: GoogleFonts.roboto(textStyle: Constants.DEFAULTEXTSTYLE.copyWith(fontSize: 18.0)),
-                  ),
-                  IconButton(onPressed: (){
-                    homeController.refreshingContacts.value = !homeController.refreshingContacts.value;
-                  }, icon: Icon(Icons.upload, size: 28.0, color: Colors.white,),),
-                ],
+              padding: EdgeInsets.only(top: 4.0, left: 12.0, right: 16.0),
+              child: Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Your Contatcts".toUpperCase(),
+                      style: GoogleFonts.roboto(
+                          textStyle: Constants.DEFAULTEXTSTYLE.copyWith(fontSize: 18.0)),
+                    ),
+                    !homeController.uploadBtnEnabled.value
+                        ? SizedBox(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                            height: 24,
+                            width: 24,
+                          )
+                        : IconButton(
+                            onPressed: () async {
+                              homeController.contacts.clear();
+                              homeController.uploadBtnEnabled.value = false;
+                              homeController.refreshingContacts.value =
+                                  !homeController.refreshingContacts.value;
+                              var contactsMap = await homeController.getPhoneContacts();
+                              await homeController.sendContactsToServer(contactsMap);
+                              homeController.uploadBtnEnabled.value = true;
+                            },
+                            icon: Icon(
+                              Icons.upload,
+                              size: 28.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                  ],
+                ),
               ),
             ),
             BottomPanel()
